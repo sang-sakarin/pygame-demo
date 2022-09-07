@@ -1,4 +1,5 @@
 import pygame
+from utils import *
 
 
 class Player(pygame.sprite.Sprite):
@@ -6,14 +7,32 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, pos, group):
         super().__init__(group)
 
+        self.animations = None
+        self.import_assets()
+        self.status = 'down'
+        self.frame_index = 0
+
         # general setup
-        self.image = pygame.Surface((64, 32))
-        self.image.fill('green')
+
+        self.image = self.animations[self.status][self.frame_index]
         self.rect = self.image.get_rect(center=pos)
         # movement attributes
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
         self.speed = 200
+
+    def import_assets(self):
+        self.animations = {
+            'up': [], 'down': [], 'left': [], 'right': [],
+            'up_idle': [], 'down_idle': [], 'left_idle': [], 'right_idle': [],
+            'up_hoe': [], 'down_hoe': [], 'left_hoe': [], 'right_hoe': [],
+            'up_axe': [], 'down_axe': [], 'left_axe': [], 'right_axe': [],
+            'up_water': [], 'down_water': [], 'left_water': [], 'right_water': [],
+        }
+
+        for animation in self.animations.keys():
+            full_path = 'assets/graphics/character/' + animation
+            self.animations[animation] = import_folder(full_path)
 
     def input(self):
         keys = pygame.key.get_pressed()
@@ -31,8 +50,6 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = -1
         else:
             self.direction.x = 0
-
-        print(self.direction)
 
     def move(self, dt):
         # normalizing a vector
