@@ -8,11 +8,11 @@ def import_folder(path):
 
     for _, __, img_files in walk(path):
 
+        img_files.sort()
+
         for img_file in img_files:
             full_path = f"{path}/{img_file}"
-            print(full_path)
             image_surf = pygame.image.load(full_path).convert_alpha()
-            # print(full_path)
 
             surface_list.append(image_surf)
 
