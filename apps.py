@@ -2,6 +2,7 @@ import pygame
 import sys
 
 from configs import *
+from level import Level
 
 
 class GameDemo:
@@ -11,6 +12,7 @@ class GameDemo:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption('Pygame Demo')
         self.clock = pygame.time.Clock()
+        self.level = Level()
 
     def run(self):
         while True:
@@ -20,6 +22,7 @@ class GameDemo:
                     sys.exit()
 
             dt = self.clock.tick() / 1000
+            self.level.run(dt)
             pygame.display.update()
 
 
